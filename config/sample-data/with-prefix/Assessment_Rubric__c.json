@@ -1,0 +1,25 @@
+{
+    "records": [
+        {
+            "attributes": {
+                "type": "vtse__Assessment_Rubric__c",
+                "referenceId": "Assessment_Rubric__cRef1"
+            },
+            "Name": "Mixed Rubric"
+        },
+        {
+            "attributes": {
+                "type": "vtse__Assessment_Rubric__c",
+                "referenceId": "Assessment_Rubric__cRef2"
+            },
+            "Name": "Text Rubric"
+        },
+        {
+            "attributes": {
+                "type": "vtse__Assessment_Rubric__c",
+                "referenceId": "Assessment_Rubric__cRef3"
+            },
+            "Name": "Stars Rubric"
+        }
+    ]
+}

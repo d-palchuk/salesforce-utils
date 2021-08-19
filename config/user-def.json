@@ -1,0 +1,13 @@
+{
+    "Username": "user@sescratch.org",
+    "LastName": "Dummy User",
+    "Email": "dummy@email.net",
+    "Alias": "duser",
+    "TimeZoneSidKey": "Europe/Minsk",
+    "LocaleSidKey": "en_US",
+    "EmailEncodingKey": "UTF-8",
+    "LanguageLocaleKey": "en_US",
+    "profileName": "Standard Platform User",
+    "permsets": [],
+    "generatePassword": true
+}

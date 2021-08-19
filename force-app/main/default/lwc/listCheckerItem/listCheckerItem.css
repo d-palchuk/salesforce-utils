@@ -1,0 +1,27 @@
+.checker {
+    cursor: pointer;
+    border-radius: 4px;
+}
+.checker:hover {
+    background-color: #eee;
+}
+lightning-icon {
+    transition: 0.25s all ease-out 0s;
+}
+.is-custom::after {
+    content: "(c)";
+    position: absolute;
+    font-size: x-small;
+    color: firebrick;
+    top: -.15rem;
+    left: 1.5rem;
+}
+.checker-item_unchecked lightning-icon {
+    fill-opacity: 0;
+}
+.is-hidden {
+    padding: 0;
+    opacity: 0;
+    visibility: hidden;
+    height: 0;
+}

@@ -1,0 +1,36 @@
+{
+    "records": [
+        {
+            "attributes": {
+                "type": "vtse__Assessment_Criteria__c",
+                "referenceId": "Assessment_Criteria__cRef1"
+            },
+            "Name": "Text Criteria Two",
+            "vtse__Type__c": "Free Text"
+        },
+        {
+            "attributes": {
+                "type": "vtse__Assessment_Criteria__c",
+                "referenceId": "Assessment_Criteria__cRef2"
+            },
+            "Name": "Star Criteria Two",
+            "vtse__Type__c": "Star"
+        },
+        {
+            "attributes": {
+                "type": "vtse__Assessment_Criteria__c",
+                "referenceId": "Assessment_Criteria__cRef3"
+            },
+            "Name": "Star Criteria One",
+            "vtse__Type__c": "Star"
+        },
+        {
+            "attributes": {
+                "type": "vtse__Assessment_Criteria__c",
+                "referenceId": "Assessment_Criteria__cRef4"
+            },
+            "Name": "Text Criteria One",
+            "vtse__Type__c": "Free Text"
+        }
+    ]
+}

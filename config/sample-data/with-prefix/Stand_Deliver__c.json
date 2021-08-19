@@ -1,0 +1,110 @@
+{
+    "records": [
+        {
+            "attributes": {
+                "type": "vtse__Stand_Deliver__c",
+                "referenceId": "Stand_Deliver__cRef1"
+            },
+            "Name": "S&D 1",
+            "vtse__Anonymous_Feedback__c": false,
+            "vtse__Description__c": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Laborum totam maxime officia ut quaerat! Explicabo labore perspiciatis earum fugiat dicta.",
+            "vtse__Feedback_Type__c": "Public",
+            "vtse__Hide_Feedback_Details__c": false,
+            "vtse__Hide_Feedback_In_Review__c": false,
+            "vtse__Maximum_Attempts__c": 5,
+            "vtse__Media_Feedback__c": true,
+            "vtse__Public__c": true,
+            "vtse__Shelf_Life__c": 10,
+            "vtse__Status__c": "Active",
+            "vtse__Thumbnail_URL__c": "https://cdn.mos.cms.futurecdn.net/yL3oYd7H2FHDDXRXwjmbMf-320-80.jpg"
+        },
+        {
+            "attributes": {
+                "type": "vtse__Stand_Deliver__c",
+                "referenceId": "Stand_Deliver__cRef2"
+            },
+            "Name": "S&D 2",
+            "vtse__Anonymous_Feedback__c": false,
+            "vtse__Description__c": "Zootopia' review after watching...",
+            "vtse__Feedback_Type__c": "Public",
+            "vtse__Hide_Feedback_Details__c": false,
+            "vtse__Hide_Feedback_In_Review__c": false,
+            "vtse__Maximum_Attempts__c": 10,
+            "vtse__Media_Feedback__c": true,
+            "vtse__Minimum_Average_Score__c": 3,
+            "vtse__Public__c": false,
+            "vtse__Shelf_Life__c": 20,
+            "vtse__Status__c": "Active",
+            "vtse__Thumbnail_URL__c": "https://variety.com/wp-content/uploads/2015/11/zootopia-disney-trailer-sloths.jpg"
+        },
+        {
+            "attributes": {
+                "type": "vtse__Stand_Deliver__c",
+                "referenceId": "Stand_Deliver__cRef3"
+            },
+            "Name": "S&D 3",
+            "vtse__Anonymous_Feedback__c": false,
+            "vtse__Description__c": "16 Simpsons predictions that came true",
+            "vtse__Feedback_Type__c": "Public",
+            "vtse__Hide_Feedback_Details__c": false,
+            "vtse__Hide_Feedback_In_Review__c": false,
+            "vtse__Maximum_Attempts__c": 5,
+            "vtse__Media_Feedback__c": true,
+            "vtse__Minimum_Average_Score__c": 3.5,
+            "vtse__Public__c": false,
+            "vtse__Status__c": "Active",
+            "vtse__Thumbnail_URL__c": "https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F6%2F2018%2F03%2Fsimpsons-curling-1-2000.jpg"
+        },
+        {
+            "attributes": {
+                "type": "vtse__Stand_Deliver__c",
+                "referenceId": "Stand_Deliver__cRef4"
+            },
+            "Name": "S&D 4",
+            "vtse__Anonymous_Feedback__c": false,
+            "vtse__Description__c": "Family Guy' kills off a major character",
+            "vtse__Feedback_Type__c": "Public",
+            "vtse__Hide_Feedback_Details__c": false,
+            "vtse__Hide_Feedback_In_Review__c": false,
+            "vtse__Media_Feedback__c": false,
+            "vtse__Public__c": true,
+            "vtse__Status__c": "Active",
+            "vtse__Thumbnail_URL__c": "https://www.gannett-cdn.com/-mm-/45292b6dac045ff8cf944e04c87fbd957f592d65/c=96-38-4685-2630/local/-/media/USATODAY/test/2013/11/25//1385372730000-XXX-family-guy-vestigal-peter-3426-.jpg"
+        },
+        {
+            "attributes": {
+                "type": "vtse__Stand_Deliver__c",
+                "referenceId": "Stand_Deliver__cRef5"
+            },
+            "Name": "S&D 5",
+            "vtse__Anonymous_Feedback__c": true,
+            "vtse__Description__c": "Dead Again: Futurama Canceled for the Second Time",
+            "vtse__Feedback_Type__c": "Public",
+            "vtse__Hide_Feedback_Details__c": false,
+            "vtse__Hide_Feedback_In_Review__c": false,
+            "vtse__Maximum_Attempts__c": 10,
+            "vtse__Media_Feedback__c": false,
+            "vtse__Minimum_Average_Score__c": 4,
+            "vtse__Public__c": true,
+            "vtse__Shelf_Life__c": 30,
+            "vtse__Status__c": "Active",
+            "vtse__Thumbnail_URL__c": "https://media.wired.com/photos/593358bfa88f414d9a8c7b7c/191:100/pass/futurama.jpg"
+        },
+        {
+            "attributes": {
+                "type": "vtse__Stand_Deliver__c",
+                "referenceId": "Stand_Deliver__cRef6"
+            },
+            "Name": "S&D 6",
+            "vtse__Anonymous_Feedback__c": false,
+            "vtse__Description__c": "Minions' review after watching...",
+            "vtse__Feedback_Type__c": "Public",
+            "vtse__Hide_Feedback_Details__c": false,
+            "vtse__Hide_Feedback_In_Review__c": false,
+            "vtse__Media_Feedback__c": false,
+            "vtse__Public__c": false,
+            "vtse__Status__c": "Active",
+            "vtse__Thumbnail_URL__c": "https://grantland.com/wp-content/uploads/2015/07/minions_2015-wide-e1436818869870.jpg"
+        }
+    ]
+}

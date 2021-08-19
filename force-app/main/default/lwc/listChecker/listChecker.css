@@ -1,0 +1,27 @@
+.dropdown {
+  top: 3.35rem;
+  max-width: 100%;
+  min-width: 100%;
+  border: 1px solid;
+  border-top: 0;
+  border-color: #8f8f8f;
+  border-radius: 0 0 0.25rem 0.25rem;
+  box-shadow  : 0 0 0.2rem #8f8f8f;
+  background-color: #fff;
+}
+.scroller {
+  overflow-y: scroll;
+}
+.all-actions {
+  top: 0;
+  border-radius: 0.5rem;
+}
+.all-actions:hover {
+  background-color: #eeeeee;
+  cursor: pointer;
+}
+.empty-result {
+  display: block;
+  padding: 1rem;
+  text-align: center;
+}

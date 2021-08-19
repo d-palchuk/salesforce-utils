@@ -1,0 +1,47 @@
+<template>
+  <div class="slds-grid slds-grid_vertical slds-is-relative"
+       onmouseenter={handleMouseEnter}
+       onmouseleave={handleMouseLeave}
+  >
+    <lightning-input
+      class="slds-text-body_small"
+      type="search"
+      placeholder={filterPlaceholder}
+      label={filterLabel}
+      onchange={handleFilterChange}
+      onclick={handleInputMouseClick}
+      onmousedown={handleInputMouseDown}
+      onmouseup={handleInputMouseUp}
+      autocomplete="off"
+      disabled={isControlPanelDisabled}
+    ></lightning-input>
+
+    <div class={dropDownBlockClasses}>
+      <template if:false={isSearchResultEmpty}>
+        <div class="slds-grid slds-p-around_xx-small slds-truncate">
+          <div class="slds-col slds-text-align_center all-actions" onclick={handleSelectAll}>{labels.select_All}</div>
+          <div class="slds-col slds-text-align_center all-actions" onclick={handleDeselectAll}>{labels.deselect_All}</div>
+        </div>
+      </template>
+
+      <template if:true={isSearchResultEmpty}>
+        <span class='empty-result'>
+          {labels.records_Not_Found}
+        </span>
+      </template>
+
+      <div class="scroller" style={scrollerStyle}>
+
+        <template if:true={checkers}>
+          <template for:each={checkers} for:item="checker">
+            <c-list-checker-item
+              key={checker.key}
+              checker={checker}
+              onitemchange={handleItemChange}
+            ></c-list-checker-item>
+          </template>
+        </template>
+      </div>
+    </div>
+  </div>
+</template>

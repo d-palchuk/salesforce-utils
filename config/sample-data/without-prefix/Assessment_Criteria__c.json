@@ -1,0 +1,36 @@
+{
+    "records": [
+        {
+            "attributes": {
+                "type": "Assessment_Criteria__c",
+                "referenceId": "Assessment_Criteria__cRef1"
+            },
+            "Name": "Text Criteria Two",
+            "Type__c": "Free Text"
+        },
+        {
+            "attributes": {
+                "type": "Assessment_Criteria__c",
+                "referenceId": "Assessment_Criteria__cRef2"
+            },
+            "Name": "Star Criteria Two",
+            "Type__c": "Star"
+        },
+        {
+            "attributes": {
+                "type": "Assessment_Criteria__c",
+                "referenceId": "Assessment_Criteria__cRef3"
+            },
+            "Name": "Star Criteria One",
+            "Type__c": "Star"
+        },
+        {
+            "attributes": {
+                "type": "Assessment_Criteria__c",
+                "referenceId": "Assessment_Criteria__cRef4"
+            },
+            "Name": "Text Criteria One",
+            "Type__c": "Free Text"
+        }
+    ]
+}

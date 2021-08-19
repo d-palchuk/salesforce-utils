@@ -1,0 +1,45 @@
+<template>
+    <section
+        role="dialog"
+        tabindex="-1"
+        aria-modal="true"
+        class="slds-modal slds-fade-in-open"
+    >
+        <div class={containerClass}>
+            <header if:false={hideHeader} class={headerClass} style={headerStyle}>
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={handleCloseModal}>
+                    <lightning-icon
+                        icon-name="utility:close"
+                        variant="inverse"
+                        alternative-text="close"
+                        size="small"
+                        title="close"
+                    ></lightning-icon>
+                </button>
+
+                <slot name="header"></slot>
+            </header>
+                        <!-- ERROR MESSAGE -->
+            <div if:true={errorMessage} class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_error" role="alert">
+                <span class="slds-assistive-text">error</span>
+                <h2>{errorMessage}</h2>
+                <lightning-icon
+                    class="slds-notify__close"
+                    size="x-small"
+                    variant="inverse"
+                    icon-name="utility:close"
+                    onclick={handleResetError}
+                ></lightning-icon>
+            </div>
+
+            <div class={contentClass} style={contentStyle}>
+                <slot name="content"></slot>
+            </div>
+
+            <footer if:false={hideFooter} class={footerClass} style={footerStyle}>
+                <slot name="footer"></slot>
+            </footer>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</template>
