@@ -88,8 +88,21 @@ export function logError(errors, showToast = true) {
 
 // Helper function to wait until the microtask queue is empty. This is needed for promise timing.
 export function flushPromises() {
-    // eslint-disable-next-line no-undef
-    return new Promise((resolve) => setImmediate(resolve));
+    return new Promise((resolve) => setTimeout(resolve));
+}
+
+export function removeSingleQuotes(string = '') {
+    return String(string).replace(/\'/g, '');
+}
+
+export function removeWhiteSpaces(string = '') {
+    return String(string).replace(/\s/g, '');
+}
+
+export function stringIsBlank(string) {
+    string = removeWhiteSpaces(string);
+
+    return string === '' || string === null
 }
 
 // Merge a bunch of arrays into one and remove duplicates
@@ -186,14 +199,80 @@ export const getUrlParam = (keyString) => {
     return encodeURIComponent(param);
 }
 
-export function stringIsBlank(str = '') {
-    return !str || !str.trim();
+/**
+ * Encode the HTML in a user-submitted string
+ * https://portswigger.net/web-security/cross-site-scripting/preventing
+ * @param  {String} str  The user-submitted string
+ * @return {String} str  The sanitized string
+ */
+ export function encodeHTML (str) {
+	return str && str.replace(/data:/gi, '').replace(/javascript:/gi, '').replace(/[^\w-_•.,!@#$%&*()[]<>`˜§± ]/gi, function (c) {
+		return `&#${c.charCodeAt(0)};`;
+	});
 }
 
-export function stringIsNotBlank(str = '') {
-    return stringIsBlank(str) === false;
+export function isArrayValid(array) {
+    return !!array && Array.isArray(array) && array.length > 0;
 }
 
-export function computeClasses(classes = []) {
-    return classes.filter((v, i, a) => !!v && a.indexOf(v) === i).join(' ');
+
+let timer;
+/**
+ * A debounce function makes sure that your code is only triggered once per user input
+ *
+ * Example of usage:
+ * debounce(() => this.makeSearch(searchTerm))
+ *
+ * @param {Function} func - function you want to invoke
+ * @param {Number} timeout - the default value is 512
+ */
+
+export function debounce(func, timeout = 512) {
+    clearTimeout(timer);
+
+    timer = setTimeout(() => func(), timeout);
+}
+
+export function getIconByObjectName(objectName) {
+    switch(objectName) {
+        case 'Account':
+            return 'standard:account';
+        case 'Partner Account':
+            return 'standard:account_info';
+        case 'PDX Account':
+            return 'standard:account_info';
+        case 'Contact':
+            return 'standard:contact';
+        default:
+            return 'custom:custom55';
+    }
+}
+
+
+export function getIconByDocType(docType){
+    switch(docType){
+        case 'csv':
+            return 'doctype:csv';
+        case 'pdf':
+            return 'doctype:pdf';
+        case 'pps':
+        case 'ppt':
+        case 'pptx':
+            return 'doctype:ppt';
+        case 'xls':
+        case 'xlsx':
+            return 'doctype:excel';
+        case 'doc':
+        case 'docx':
+            return 'doctype:word';
+        case 'txt':
+            return 'doctype:txt';
+        case 'png':
+        case 'jpeg':
+        case 'jpg':
+        case 'gif':
+            return 'doctype:image';
+        default:
+            return 'doctype:unknown';
+    }
 }

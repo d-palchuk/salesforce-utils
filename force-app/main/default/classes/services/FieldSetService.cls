@@ -149,14 +149,7 @@ public with sharing class FieldSetService {
     }
 
     public static String getFieldSetName(String customSettingFieldName) {
-
-        if(customSettingFieldName == Constants.SE_SETTING_FIELD_NAME_STAND_DELIVER_ASSING_COLUMNS_FS) {
-            return SalesEnablementSettings.STAND_DELIVER_ASSIGN_COLUMNS_FIELD_SET_NAME;
-        }
-        if(customSettingFieldName == Constants.SE_SETTING_FIELD_NAME_STAND_DELIVER_ASSING_FILTERS_FS) {
-            return SalesEnablementSettings.STAND_DELIVER_ASSIGN_FILTERS_FIELD_SET_NAME;
-        }
-
+        // TODO
         return '';
     }
 
@@ -384,7 +377,7 @@ public with sharing class FieldSetService {
                 }
 
                 if(!isMultiPicklist) {
-                    this.picklistOptions.add(0, new PicklistOptionWrapper(System.Label.None_Option, '', true, false));
+                    this.picklistOptions.add(0, new PicklistOptionWrapper('', '', true, false));
                 }
             }
         }

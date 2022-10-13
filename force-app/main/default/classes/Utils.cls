@@ -1,18 +1,5 @@
 public inherited sharing class Utils {
 
-    public static void publishStandDeliverEvents(List<SObject> records, Boolean isApproverAction) {
-        List<Stand_Deliver_Event__e> events = new List<Stand_Deliver_Event__e>();
-
-        for (SObject record : records) {
-            events.add(new Stand_Deliver_Event__e(
-                SObjectId__c        = (String) record.get('Id'),
-                isApproverAction__c = isApproverAction
-            ));
-        }
-
-        EventBus.publish(events);
-    }
-
     public static User getUserInformation() {
         return getUserInformation(UserInfo.getUserId());
     }
@@ -87,8 +74,8 @@ public inherited sharing class Utils {
         return result;
     }
 
-    public static List<SelectOption> getProfiles(String license) {
-        List<SelectOption> result = new List<SelectOption>();
+    public static List<SelectOptionWrapper> getProfiles(String license) {
+        List<SelectOptionWrapper> result = new List<SelectOptionWrapper>();
 
         String query = 'SELECT Id, Name';
         query += ' FROM Profile';
@@ -101,29 +88,29 @@ public inherited sharing class Utils {
 
 
         for (Profile p : Database.query(query)) {
-            result.add(new SelectOption(p.Id, p.Name));
+            result.add(new SelectOptionWrapper(p.Id, p.Name));
         }
 
         return result;
     }
 
-    public static List<SelectOption> getRoles() {
-        List<SelectOption> result = new List<SelectOption>();
+    public static List<SelectOptionWrapper> getRoles() {
+        List<SelectOptionWrapper> result = new List<SelectOptionWrapper>();
 
         for (UserRole ur : [SELECT Id, Name FROM UserRole WHERE PortalType = 'None' ORDER BY Name LIMIT 300]) {
-            result.add(new SelectOption(ur.Id, ur.Name));
+            result.add(new SelectOptionWrapper(ur.Id, ur.Name));
         }
 
         return result;
     }
 
-    public static List<SelectOption> getCommunities() {
-        List<SelectOption> result = new List<SelectOption>();
+    public static List<SelectOptionWrapper> getCommunities() {
+        List<SelectOptionWrapper> result = new List<SelectOptionWrapper>();
 
         if (Constants.GLOBAL_DESCRIBE.containsKey('Network') == false) return result;
 
         for (SObject community : Database.query('SELECT Id, Name FROM Network LIMIT 100')) {
-            result.add(new SelectOption((String)community.get('Id'), (String)community.get('Name')));
+            result.add(new SelectOptionWrapper((String)community.get('Id'), (String)community.get('Name')));
         }
 
         return result;

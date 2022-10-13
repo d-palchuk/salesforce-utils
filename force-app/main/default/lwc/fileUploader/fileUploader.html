@@ -1,0 +1,25 @@
+<template>
+    <div class="slds-is-relative">
+        <lightning-file-upload
+            name="fileUploader"
+            record-id={recordId}
+            label={label}
+            accept={acceptedFormats}
+            multiple={allowMultiple}
+            disabled={disabled}
+            onuploadfinished={handleUploadFinished}
+        ></lightning-file-upload>
+    </div>
+
+    <div class="slds-col slds-grid slds-grid_vertical slds-p-around_x-small slds-is-relative" onclick={handleDeleteFile}>
+        <template for:each={files} for:item="file">
+            <div key={file.id} data-file class="slds-col slds-grid slds-grid_vertical-align-center slds-m-top_x-small">
+                <lightning-icon icon-name={file.icon} size="small"></lightning-icon>
+                <lightning-formatted-text class="slds-col slds-p-horizontal_small slds-truncate" value={file.name}></lightning-formatted-text>
+                <lightning-button-icon data-file-id={file.id} icon-name="utility:delete" size="small" disabled={disabled}></lightning-button-icon>
+            </div>
+        </template>
+
+        <lightning-spinner if:true={spinnerStatus.isLoading}></lightning-spinner>
+    </div>
+</template>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>55.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__FlowScreen</target>
+    </targets>
+    <masterLabel>File Uploader</masterLabel>
+    <description>Improving the standard File Upload component.</description>
+    <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+            <property
+                name="recordId"
+                type="String"
+                label='Related Record Id'
+                description="The record Id of the record that the uploaded file is associated to."
+            />
+            <property
+                name="label"
+                type="String"
+                label='Label'
+                description="The text on the file upload button."
+            />
+            <property
+                name="acceptedFormats"
+                type="String"
+                label="Accepted Formats"
+                description="The accepted file types. Enter a comma-separated string of the file extensions (such as '.txt, .jpg') that the user can upload."
+            />
+            <property
+                name="allowMultiple"
+                type="Boolean"
+                label="Allow Multiple Files"
+                description="Allow the user to upload multiple files. If this is not TRUE, then once the user uploads one file, the file upload component will not allow any additional files to be uploaded."
+            />
+            <property
+                name="disabled"
+                type="Boolean"
+                label='Disabled'
+                description="Displays the component in a disabled state."
+            />
+            <property
+                name="required"
+                type="Boolean"
+                label='Required'
+                description="Require the user to upload at least one file."
+            />
+            <property
+                name="requiredMessage"
+                type="String"
+                label='Required Validation Message'
+                description="The validation message displayed if the user has not uploaded at least one file. The default message is 'Upload at least one file.'"
+            />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

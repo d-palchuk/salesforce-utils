@@ -50,19 +50,6 @@ public with sharing class Constants {
         }
     }
 
-    public static String TASK_DETAIL_LINK {
-        get {
-            if (TASK_DETAIL_LINK == null) {
-                TASK_DETAIL_LINK = Constants.ORG_DOMAIN + '/lightning/n/' + SalesEnablementSettings.STAND_DELIVER_TASK_URL + '?' + Constants.TASK_DETAIL_PAGE_QUERY_PARAM_NAME + '=';
-            }
-
-            return TASK_DETAIL_LINK;
-        }
-        set {
-            TASK_DETAIL_LINK = value;
-        }
-    }
-
     // RESULT DATA STATUSES
     public static final String STATUS_SUCCESS           = 'SUCCESS';
     public static final String STATUS_ERROR             = 'ERROR';

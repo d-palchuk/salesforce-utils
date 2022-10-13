@@ -8,5 +8,5 @@
   "name": "salesforce-utils",
   "namespace": "",
   "sfdcLoginUrl": "https://login.salesforce.com",
-  "sourceApiVersion": "52.0"
+  "sourceApiVersion": "55.0"
 }
