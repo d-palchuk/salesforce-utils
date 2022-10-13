@@ -1,6 +1,6 @@
 import { LightningElement, api, track } from 'lwc';
 import { deleteRecord } from 'lightning/uiRecordApi';
-// import { doRequest, logError, getIconByDocType } from 'c/utils'
+import { doRequest, logError, getIconByDocType } from 'c/utils'
 
 import getExistingFiles from '@salesforce/apex/FileUploaderCtrl.getExistingFiles';
 
