@@ -1,7 +1,7 @@
 const fs = require('fs');
 const { exec } = require("child_process");
 
-const DEFAULT_ENV = 'zhopa-qa'
+const DEFAULT_ENV = 'qa'
 const DEFAULT_PATH = 'force-app/main/default';
 const DEFAULT_TESTS_FOLDER = 'force-app/main/default/classes/tests/';
 
@@ -34,7 +34,7 @@ const deployMetadata = (deployCmd) => {
     });
 };
 
-const deploy = async (files = DEFAULT_PATH, env = DEFAULT_ENV, isCheckDeploy = true, tests, diffBranch, diffPath = DEFAULT_PATH) => {
+const deploy = async (files = DEFAULT_PATH, env = DEFAULT_ENV, isCheckDeploy = true, tests, diffBranch) => {
 
     let deployCmd = '';
 
@@ -50,7 +50,7 @@ const deploy = async (files = DEFAULT_PATH, env = DEFAULT_ENV, isCheckDeploy = t
     } else {
         console.log('GENERATING DIFF:\r\n')
 
-        exec(`git diff --name-only --diff-filter=ACMR ${diffBranch} ${diffPath}`, (error, diff, stderr) => {
+        exec(`git diff --name-only --diff-filter=ACMR ${diffBranch} ${files}`, (error, diff, stderr) => {
             if (error) {
                 console.log(`error: ${error.message}`);
                 return;
@@ -75,4 +75,18 @@ const deploy = async (files = DEFAULT_PATH, env = DEFAULT_ENV, isCheckDeploy = t
     }
 };
 
+/* DEPLOY TEMPLATES */
+
 deploy(DEFAULT_PATH, DEFAULT_ENV, true, generateTests(), undefined, undefined);
+
+// deploy('force-app/main/default/classes,force-app/main/default/triggers', DEFAULT_ENV, false);
+// deploy('force-app/main/default/classes,force-app/main/default/triggers', DEFAULT_ENV, false, generateTests());
+
+// deploy(DEFAULT_PATH, 'uat', true, generateTests());
+// deploy(DEFAULT_PATH, 'uat', false, undefined, 'release');
+
+/* DIFF DEPLOY QUEUE */
+
+// deploy(DEFAULT_PATH, 'dev', false, undefined, 'release');
+// deploy(DEFAULT_PATH, 'qa', false, undefined, 'release');
+// deploy(DEFAULT_PATH, 'uat', false, undefined, 'release');

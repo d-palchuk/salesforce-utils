@@ -1,0 +1,1 @@
+sfdx force:source:deploy --manifest manifest/emptyManifest.xml --postdestructivechanges manifest/to-delete-next-prod-deploy.xml
