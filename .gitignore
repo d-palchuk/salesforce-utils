@@ -3,10 +3,10 @@
 # For useful gitignore templates see: https://github.com/github/gitignore
 
 # Salesforce cache
+.sf/
 .sfdx/
 .localdevserver/
-.vscode/
-.idea
+deploy-options.json
 
 # LWC VSCode autocomplete
 **/lwc/jsconfig.json
@@ -35,17 +35,15 @@ Thumbs.db
 ehthumbs.db
 [Dd]esktop.ini
 $RECYCLE.BIN/
-.eslintignore
-.forceignore
-.prettierignore
-.prettierrc
-*.iml
-*.ps1
 
-manifest
-force-app/main/default/aura/.eslintrc.json
-force-app/main/default/lwc/.eslintrc.json
-salesforce-lightning-design-system.css
-package.json
-scripts/apex/hello.apex
-scripts/soql/account.soql
+# Local environment variables
+.env
+
+# Python Salesforce Functions
+**/__pycache__/
+**/.venv/
+**/venv/
+
+.vscode/
+local/
+package-lock.json
