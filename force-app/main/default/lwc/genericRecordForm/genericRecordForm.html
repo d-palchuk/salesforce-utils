@@ -1,0 +1,15 @@
+<template>
+    <lightning-card class="slds-col slds-grid slds-grid_vertical" title={title} icon-name={iconName}>
+        <div class="slds-var-p-around_medium">
+            <lightning-record-form
+                object-api-name={objectApiName}
+                record-id={recordId}
+                fields={fields}
+                layout-type={layoutType}
+                columns={columns}
+                density={density}
+                mode={mode}
+            ></lightning-record-form>
+        </div>
+    </lightning-card>
+</template>
