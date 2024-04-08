@@ -1,9 +1,13 @@
 <template>
     <lightning-card class="slds-col slds-grid slds-grid_vertical" title={title} icon-name={iconName}>
+        <div slot="actions">
+            <slot name="actions"></slot>
+        </div>
         <div class="slds-var-p-around_medium">
             <lightning-record-form
-                object-api-name={objectApiName}
                 record-id={recordId}
+                object-api-name={objectApiName}
+                record-type-id={recordTypeId}
                 fields={fields}
                 layout-type={layoutType}
                 columns={columns}

@@ -10,8 +10,9 @@
     </targets>
     <targetConfigs>
         <targetConfig targets="lightning__RecordPage, lightningCommunity__Default">
-            <property label="Record ID" name="recordId" type="String" />
+            <property label="Record Id" name="recordId" type="String" />
             <property label="Object Api Name" name="objectApiName" type="String" />
+            <property label="Record Type Id" name="recordTypeId" type="String" />
             <property label="Field Api Names" name="fieldApiNames" type="String" />
             <property label="Layout Type" name="layoutType" type="String" datasource=", Full, Compact"/>
             <property label="Columns" name="columns" type="Integer" default="2"/>
@@ -25,5 +26,5 @@
                 description="Please specify the name of the SLDS icon in the format type:name"
             />
         </targetConfig>
-      </targetConfigs>
+    </targetConfigs>
 </LightningComponentBundle>
