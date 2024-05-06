@@ -1,0 +1,16 @@
+<template>
+    <div class="slds-var-m-top_medium slds-var-m-bottom_medium slds-is-relative">
+        <div class="slds-align_absolute-center slds-var-m-vertical_large">{title}</div>
+        <div class="slds-align_absolute-center">
+            <lightning-button label={labelCancel} onclick={handleCancel} variant="neutral"></lightning-button>
+            <lightning-button
+                class="slds-var-m-left_xx-small"
+                variant="brand"
+                label={labelConfirm}
+                onclick={handleConfirm}
+            ></lightning-button>
+        </div>
+
+        <lightning-spinner if:true={isLoading} alternative-text="Loading"></lightning-spinner>
+    </div>
+</template>

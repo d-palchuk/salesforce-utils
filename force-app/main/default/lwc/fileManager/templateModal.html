@@ -1,0 +1,45 @@
+<!-- sldsValidatorIgnore -->
+<template>
+    <lightning-modal-header label={labels.uploadDocuments}></lightning-modal-header>
+    <lightning-modal-body class="slds-is-relative">
+        <lightning-button-icon
+            variant="bare"
+            title={labels.contentSync}
+            icon-name="utility:sync"
+            onclick={handleDataReload}
+            slot="actions"
+        ></lightning-button-icon>
+        <template for:each={files} for:item="file">
+            <div key={file.Id} class="slds-p-around_small slds-m-bottom_small item-container">
+                <c-file-manager-item
+                    file={file}
+                    ondeletefile={handleDeleteFile}
+                    onpreviewfile={handlePreviewFile}
+                    ondownloadfile={handleDownloadFile}
+                    onrenamefile={handleRenameFile}
+                ></c-file-manager-item>
+            </div>
+        </template>
+        <lightning-file-upload
+            name="fileUploader"
+            accept={acceptedFormats}
+            record-id={recordId}
+            onuploadfinished={handleUploadFinished}
+            multiple
+            class="slds-col slds-align_absolute-center"
+        ></lightning-file-upload>
+        <lightning-spinner
+            if:true={spinnerStatus.isLoading}
+            alternative-text="Loading"
+            size="small"
+        ></lightning-spinner>
+    </lightning-modal-body>
+    <lightning-modal-footer>
+        <lightning-button
+            label={labels.done}
+            onclick={handleCancel}
+            variant="neutral"
+            class="slds-var-m-left_x-small"
+        ></lightning-button>
+    </lightning-modal-footer>
+</template>

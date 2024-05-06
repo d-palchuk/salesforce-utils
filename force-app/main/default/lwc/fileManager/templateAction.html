@@ -1,0 +1,39 @@
+<!-- sldsValidatorIgnore -->
+<template>
+    <lightning-card lwc:ref="card" variant="Narrow" title={labels.uploadDocuments} icon-name="standard:document">
+        <lightning-button-icon
+            variant="bare"
+            title={labels.contentSync}
+            icon-name="utility:sync"
+            onclick={handleDataReload}
+            slot="actions"
+        ></lightning-button-icon>
+        <template for:each={files} for:item="file">
+            <div key={file.Id} class="slds-p-around_small slds-m-around_small item-container">
+                <c-file-manager-item
+                    file={file}
+                    ondeletefile={handleDeleteFile}
+                    onpreviewfile={handlePreviewFile}
+                    ondownloadfile={handleDownloadFile}
+                    onrenamefile={handleRenameFile}
+                ></c-file-manager-item>
+            </div>
+        </template>
+        <lightning-file-upload
+            name="fileUploader"
+            accept={acceptedFormats}
+            record-id={recordId}
+            onuploadfinished={handleUploadFinished}
+            multiple
+            class="upload-button slds-align_absolute-center"
+        ></lightning-file-upload>
+        <div slot="footer" class="slds-grid slds-grid_align-end" if:false={hideCloseButton}>
+            <lightning-button label={labels.done} onclick={handleCancel} variant="neutral"></lightning-button>
+        </div>
+        <lightning-spinner
+            if:true={spinnerStatus.isLoading}
+            alternative-text="Loading"
+            size="small"
+        ></lightning-spinner>
+    </lightning-card>
+</template>

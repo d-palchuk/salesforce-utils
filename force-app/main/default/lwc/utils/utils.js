@@ -1,6 +1,17 @@
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { CONSTANT, TOAST_VARIANT } from 'c/constants';
 
+import isExperienceCloudCtxAction from '@salesforce/apex/LwcUtils.isExperienceCloudCtx';
+
+let _isExperienceCloudCtx = null;
+export async function isExperienceCloudCtx() {
+    if (_isExperienceCloudCtx === null) {
+        _isExperienceCloudCtx = await doRequest(isExperienceCloudCtxAction);
+    }
+
+    return _isExperienceCloudCtx;
+}
+
 /**
  * @param {string}  title   - title of the message
  * @param {string}  message - body of the message
@@ -143,6 +154,25 @@ export function getRecordTypeId(objectInfo, recordTypeName) {
     })
 
     return recordTypeInfo ? recordTypeInfo.recordTypeId : CONSTANT.MASTER_RECORD_TYPE_ID;
+}
+
+export function getRecordTypeInfos(objectInfo) {
+    const result = [];
+
+    if (!objectInfo || !objectInfo.recordTypeInfos) {
+        return result;
+    }
+
+    for (const recordTypeInfo of Object.values(objectInfo.recordTypeInfos)) {
+        if (recordTypeInfo.available && recordTypeInfo.recordTypeId !== CONSTANT.MASTER_RECORD_TYPE_ID) {
+            result.push({
+                id: recordTypeInfo.recordTypeId,
+                name: recordTypeInfo.name
+            });
+        }
+    }
+
+    return result;
 }
 
 export function getFieldLabel(objectInfo, field) {

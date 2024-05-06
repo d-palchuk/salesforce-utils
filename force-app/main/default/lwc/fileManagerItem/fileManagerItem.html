@@ -1,0 +1,88 @@
+<template>
+    <div class="slds-grid slds-gutters item-container">
+        <div class="slds-col slds-grid slds-grid_vertical-align-center slds-size_5-of-12">
+            <lightning-icon
+                icon-name={file.icon}
+                alternative-text={labels.icon}
+                title={labels.icon}
+                size="x-small"
+                class="slds-var-m-right_x-small"
+            ></lightning-icon>
+            <lightning-input
+                lwc:if={isEditMode}
+                lwc:ref="input"
+                type="text"
+                value={file.Title}
+                onchange={handleInputChange}
+                onkeypress={handleKeyPress}
+                variant="label-hidden"
+                class="slds-var-m-left_xx-small"
+            ></lightning-input>
+            <lightning-formatted-text
+                lwc:else
+                class="slds-truncate"
+                title={file.Title}
+                value={file.Title}
+                ondblclick={handleRename}
+            ></lightning-formatted-text>
+        </div>
+        <div
+            class="slds-col slds-grid slds-grid_vertical-align-center slds-size_5-of-12 support-text slds-text-color_weak slds-text-body_small"
+        >
+            <p class="slds-var-p-right_small">{file.createdDate}</p>
+            <p>{labels.uploadedBy} {file.createdBy}</p>
+        </div>
+        <div class="slds-col slds-grid slds-grid_align-end slds-grid_vertical-align-center slds-size_2-of-12">
+            <template lwc:if={isEditMode}>
+                <lightning-button-icon
+                    icon-name="utility:save"
+                    title={labels.save}
+                    variant="bare"
+                    onclick={handleSave}
+                    class="slds-var-m-left_xx-small"
+                ></lightning-button-icon>
+                <lightning-button-icon
+                    title={labels.close}
+                    onclick={handleCancel}
+                    variant="bare"
+                    icon-name="utility:close"
+                    class="slds-var-m-left_xx-small"
+                ></lightning-button-icon>
+            </template>
+            <template lwc:else>
+                <lightning-button-icon
+                    variant="bare"
+                    title={labels.rename}
+                    icon-name="utility:edit"
+                    class="slds-var-m-left_xx-small"
+                    onclick={handleRename}
+                    data-id={file.Id}
+                ></lightning-button-icon>
+                <lightning-button-icon
+                    variant="bare"
+                    title={labels.preview}
+                    icon-name="utility:preview"
+                    class="slds-var-m-left_xx-small"
+                    onclick={handlePreviewFile}
+                    data-id={file.Id}
+                ></lightning-button-icon>
+                <lightning-button-icon
+                    variant="bare"
+                    title={labels.download}
+                    icon-name="action:download"
+                    class="slds-var-m-left_xx-small"
+                    onclick={handleDownloadFile}
+                    data-id={file.Id}
+                ></lightning-button-icon>
+                <lightning-button-icon
+                    variant="bare"
+                    title={labels.deleteLabel}
+                    icon-name="utility:delete"
+                    class="slds-var-m-left_xx-small"
+                    onclick={handleDeleteFiles}
+                    data-id={file.Id}
+                ></lightning-button-icon>
+            </template>
+        </div>
+    </div>
+</template>

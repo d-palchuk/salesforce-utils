@@ -1,0 +1,28 @@
+<template>
+    <lightning-card>
+        <lightning-tabset if:true={tabs}>
+            <template for:each={tabs} for:item="tab">
+                <lightning-tab key={tab.tabId} label={tab.label} title={tab.label}>
+                    <c-generic-record-related-list
+                        record-id={recordId}
+                        object-api-name={objectApiName}
+                        related-object-api-name={tab.relatedObjectApiName}
+                        related-list-api-name={tab.relatedListApiName}
+                        related-list-filters={tab.relatedListFilters}
+                        record-type-id={tab.recordTypeId}
+                        parent-field-api-name={tab.parentFieldApiName}
+                        related-record-new-default-values={tab.relatedRecordNewDefaultValues}
+                        title={tab.label}
+                        title-callback={titleCallback}
+                        icon-name={tab.iconName}
+                        hide-count={hideCount}
+                        hide-new-action={hideNewAction}
+                        hide-edit-action={hideEditAction}
+                        hide-delete-action={hideDeleteAction}
+                        hide-documents-action={hideDocumentsAction}
+                    ></c-generic-record-related-list>
+                </lightning-tab>
+            </template>
+        </lightning-tabset>
+    </lightning-card>
+</template>

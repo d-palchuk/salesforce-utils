@@ -1,0 +1,62 @@
+<template>
+    <div if:false={hideHeader} class="slds-page-header slds-page-header_record-home">
+        <div class="slds-page-header__row">
+            <div class="slds-page-header__col-title">
+                <div class="slds-media">
+                    <div lwc:if={iconName} class="slds-media__figure">
+                        <lightning-icon
+                            icon-name={iconName}
+                            size={iconSize}
+                            alternative-text={iconName}
+                        ></lightning-icon>
+                    </div>
+                    <div class="slds-media__body">
+                        <div class="slds-page-header__name">
+                            <div class="slds-page-header__name-title">
+                                <h1>
+                                    <span class="slds-card__header-title slds-truncate" title={title}>
+                                        <div>{title}</div>
+                                        <div if:false={hideCount} class="slds-var-m-left_xx-small">({count})</div>
+                                    </span>
+                                </h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-page-header__col-actions">
+                <div class="slds-page-header__controls">
+                    <slot name="actionsbefore"></slot>
+                    <lightning-button if:false={hideNewAction} label="New" onclick={handleNew}></lightning-button>
+                    <slot name="actionsafter"></slot>
+
+                    <lightning-button-icon
+                        class="slds-m-left_x-small rotate-center"
+                        icon-name="utility:refresh"
+                        alternative-text="Refresh"
+                        title="Refresh"
+                        onclick={handleRefresh}
+                    ></lightning-button-icon>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="slds-grid slds-grid_vertical slds-is-relative">
+        <!-- sldsValidatorIgnoreNextLine -->
+        <lightning-datatable
+            lwc:ref="datatable"
+            key-field="Id"
+            data={records}
+            columns={columns}
+            sorted-by={sortedBy}
+            sorted-direction={sortDirection}
+            draft-values={draftValues}
+            onsave={handleMassSave}
+            onsort={handleSort}
+            onrowaction={handleRowAction}
+            hide-checkbox-column={hideCheckboxColumn}
+            is-loading={isLoading}
+        ></lightning-datatable>
+        <lightning-spinner if:true={isLoading} alternative-text="Loading"></lightning-spinner>
+    </div>
+</template>

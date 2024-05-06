@@ -41,7 +41,7 @@ public with sharing class Constants {
 
     public static String ORG_DOMAIN {
         get {
-            if (ORG_DOMAIN == null) ORG_DOMAIN = System.Url.getSalesforceBaseUrl().toExternalForm().replace('.my.salesforce', '.lightning.force');
+            if (ORG_DOMAIN == null) ORG_DOMAIN = System.Url.getOrgDomainUrl().toExternalForm().replace('.my.salesforce', '.lightning.force');
 
             return ORG_DOMAIN;
         }

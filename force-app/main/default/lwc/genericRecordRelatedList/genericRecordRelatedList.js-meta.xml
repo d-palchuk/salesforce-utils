@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>60.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>Generic Record Related List</masterLabel>
+    <targets>
+        <target>lightning__RecordPage</target>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__RecordPage">
+            <property
+                label="Related Object Api Name"
+                name="relatedObjectApiName"
+                type="String"
+                description="Please specify the Related Object API Name. Example: Contact, Budget__c."
+                required="true"
+            />
+            <property
+                label="Related List Api Name"
+                name="relatedListApiName"
+                type="String"
+                description="Please specify the API Name of the related list in SOQL format. Example: Contacts, Budgets__r."
+                required="true"
+            />
+            <property
+                label="Parent Field Api Name"
+                name="parentFieldApiName"
+                type="String"
+                description="Please specify the API Name of the field of the parent object. Example: AccountId OR Budget__c."
+                required="true"
+            />
+            <property
+                label="Record Type Id"
+                name="recordTypeId"
+                type="String"
+                description="Please specify the default record Id for the new related object (or leave blank to show the record type picker first). Example: 012000000000000AAA."
+            />
+            <property
+                label="Related List Fields Api Names"
+                name="relatedListFieldApiNames"
+                type="String"
+                description="Please specify comma-separated list of Fields API Names of the related object. Example: Name, Status__c."
+            />
+            <property
+                label="Related List Filters"
+                name="relatedListFilters"
+                type="String"
+                description="The filter to apply to related list records, in GraphQL syntax. Example: { Name: { like: Bob% } MailingCity : { eq: Glasgow }}."
+            />
+            <property label="Title" name="title" type="String" />
+            <property
+                label="Icon Name"
+                name="iconName"
+                type="String"
+                description="Please specify the name of the SLDS icon in the format type:name."
+            />
+            <property
+                label="Icon Size"
+                name="iconSize"
+                type="String"
+                datasource="x-small, small, medium, large"
+                default="small"
+            />
+            <property label="Hide New Action" name="hideNewAction" type="Boolean" default="false"/>
+            <property label="Hide Edit Action" name="hideEditAction" type="Boolean" default="false"/>
+            <property label="Hide Delete Action" name="hideDeleteAction" type="Boolean" default="false"/>
+            <property label="Hide Documents Action" name="hideDocumentsAction" type="Boolean" default="false"/>
+        </targetConfig>
+        <targetConfig targets="lightningCommunity__Default">
+            <property
+                label="Record Id"
+                name="recordId"
+                type="String"
+                description="Please specify the Parent Record Id. Example: {!recordId}."
+                default="{!recordId}"
+                required="true"
+            />
+            <property
+                label="Parent Object Api Name"
+                name="objectApiName"
+                type="String"
+                description="Please specify the Parent Object API Name. Example: Case, Budget__c."
+                required="true"
+            />
+            <property
+                label="Related Object Api Name"
+                name="relatedObjectApiName"
+                type="String"
+                description="Please specify the Related Object API Name. Example: Contact, Budget__c."
+                required="true"
+            />
+            <property
+                label="Related List Api Name"
+                name="relatedListApiName"
+                type="String"
+                description="Please specify the API Name of the related list in SOQL format. Example: Contacts, Budgets__r."
+                required="true"
+            />
+            <property
+                label="Parent Field Api Name"
+                name="parentFieldApiName"
+                type="String"
+                description="Please specify the API Name of the field of the parent object. Example: AccountId OR Budget__c."
+                required="true"
+            />
+            <property
+                label="Record Type Id"
+                name="recordTypeId"
+                type="String"
+                description="Please specify the default record Id for the new related object (or leave blank to show the record type picker first). Example: 012000000000000AAA."
+            />
+            <property
+                label="Related List Fields Api Names"
+                name="relatedListFieldApiNames"
+                type="String"
+                description="Please specify comma-separated list of Fields API Names of the related object. Example: Name, Status__c."
+            />
+            <property
+                label="Related List Filters"
+                name="relatedListFilters"
+                type="String"
+                description="The filter to apply to related list records, in GraphQL syntax. Example: { Name: { like: Bob% } MailingCity : { eq: Glasgow }}."
+            />
+            <property label="Title" name="title" type="String" />
+            <property
+                label="Icon Name"
+                name="iconName"
+                type="String"
+                description="Please specify the name of the SLDS icon in the format type:name."
+            />
+            <property
+                label="Icon Size"
+                name="iconSize"
+                type="String"
+                datasource="x-small, small, medium, large"
+                default="small"
+            />
+            <property label="Hide New Action" name="hideNewAction" type="Boolean" default="false"/>
+            <property label="Hide Edit Action" name="hideEditAction" type="Boolean" default="false"/>
+            <property label="Hide Delete Action" name="hideDeleteAction" type="Boolean" default="false"/>
+            <property label="Hide Documents Action" name="hideDocumentsAction" type="Boolean" default="false"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>
