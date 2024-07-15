@@ -1,0 +1,11 @@
+.output-field:hover {
+    cursor: pointer;
+}
+
+.output-field {
+    margin-bottom: 20px;
+}
+
+.not-editable:hover {
+    cursor: default;
+}

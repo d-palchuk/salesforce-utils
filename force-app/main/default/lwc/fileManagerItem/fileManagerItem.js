@@ -5,9 +5,14 @@ export default class FileManagerItem extends LightningElement {
     labels = LABELS;
 
     @api file;
+    @api hideDownload;
 
     newFileName;
     isEditMode = false;
+
+    get isDownloadVisible() {
+        return !this.hideDownload;
+    }
 
     async handleDeleteFiles() {
         this.dispatchEvent(new CustomEvent('deletefile', { detail: this.file.Id }));
@@ -19,6 +24,10 @@ export default class FileManagerItem extends LightningElement {
 
     handleDownloadFile() {
         this.dispatchEvent(new CustomEvent('downloadfile', { detail: this.file.Id }));
+    }
+
+    handleOpenFile() {
+        this.dispatchEvent(new CustomEvent('openfile', { detail: this.file.Id }));
     }
 
     handleRename() {

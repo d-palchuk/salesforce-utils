@@ -55,7 +55,9 @@
             onsort={handleSort}
             onrowaction={handleRowAction}
             hide-checkbox-column={hideCheckboxColumn}
+            show-row-number-column={showRowNumberColumn}
             is-loading={isLoading}
+            column-widths-mode="auto"
         ></lightning-datatable>
         <lightning-spinner if:true={isLoading} alternative-text="Loading"></lightning-spinner>
     </div>

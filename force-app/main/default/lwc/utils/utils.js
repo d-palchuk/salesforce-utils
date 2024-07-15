@@ -200,7 +200,12 @@ export function getValueFromRecordInput(recordInput, field) {
 }
 
 export function getDependentPicklistValues(dependentPicklistValues, controllerPicklistValue) {
-    if (!dependentPicklistValues || !dependentPicklistValues.values || !dependentPicklistValues.values.length || !controllerPicklistValue) {
+    if (
+        !dependentPicklistValues ||
+        !dependentPicklistValues.values ||
+        !dependentPicklistValues.values.length ||
+        !controllerPicklistValue
+    ) {
         return [];
     }
 

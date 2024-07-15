@@ -1,6 +1,64 @@
 <template>
     <lightning-card>
-        <lightning-tabset if:true={tabs}>
+
+        <lightning-tabset lwc:if={picklistTabs}>
+            <template for:each={picklistTabs} for:item="tab">
+                <lightning-tab key={tab.tabId} label={tab.label} title={tab.label}>
+                    <lightning-tabset lwc:if={tab.tabs}>
+                        <template for:each={tab.tabs} for:item="subTab">
+                            <lightning-tab key={subTab.tabId} label={subTab.label} title={subTab.label}>
+                                <c-generic-record-related-list
+                                    record-id={recordId}
+                                    object-api-name={objectApiName}
+                                    related-object-api-name={subTab.relatedObjectApiName}
+                                    related-list-api-name={subTab.relatedListApiName}
+                                    related-list-filters={subTab.relatedListFilters}
+                                    related-list-field-api-names={subTab.relatedListFieldApiNames}
+                                    record-type-id={subTab.recordTypeId}
+                                    parent-field-api-name={subTab.parentFieldApiName}
+                                    additional-row-actions={additionalRowActions}
+                                    related-record-new-default-values={subTab.relatedRecordNewDefaultValues}
+                                    title={subTab.label}
+                                    title-callback={titleCallback}
+                                    label-confirm-delete={labelConfirmDelete}
+                                    icon-name={subTab.iconName}
+                                    hide-count={hideCount}
+                                    hide-new-action={hideNewAction}
+                                    hide-edit-action={hideEditAction}
+                                    hide-delete-action={hideDeleteAction}
+                                    hide-documents-action={hideDocumentsAction}
+                                ></c-generic-record-related-list>
+                            </lightning-tab>
+                        </template>
+                    </lightning-tabset>
+
+                    <c-generic-record-related-list
+                        lwc:else
+                        record-id={recordId}
+                        object-api-name={objectApiName}
+                        related-object-api-name={tab.relatedObjectApiName}
+                        related-list-api-name={tab.relatedListApiName}
+                        related-list-filters={tab.relatedListFilters}
+                        related-list-field-api-names={tab.relatedListFieldApiNames}
+                        record-type-id={tab.recordTypeId}
+                        parent-field-api-name={tab.parentFieldApiName}
+                        additional-row-actions={additionalRowActions}
+                        related-record-new-default-values={tab.relatedRecordNewDefaultValues}
+                        title={tab.label}
+                        title-callback={titleCallback}
+                        label-confirm-delete={labelConfirmDelete}
+                        icon-name={tab.iconName}
+                        hide-count={hideCount}
+                        hide-new-action={hideNewAction}
+                        hide-edit-action={hideEditAction}
+                        hide-delete-action={hideDeleteAction}
+                        hide-documents-action={hideDocumentsAction}
+                    ></c-generic-record-related-list>
+                </lightning-tab>
+            </template>
+        </lightning-tabset>
+
+        <lightning-tabset lwc:elseif={tabs}>
             <template for:each={tabs} for:item="tab">
                 <lightning-tab key={tab.tabId} label={tab.label} title={tab.label}>
                     <c-generic-record-related-list
@@ -9,11 +67,14 @@
                         related-object-api-name={tab.relatedObjectApiName}
                         related-list-api-name={tab.relatedListApiName}
                         related-list-filters={tab.relatedListFilters}
+                        related-list-field-api-names={tab.relatedListFieldApiNames}
                         record-type-id={tab.recordTypeId}
                         parent-field-api-name={tab.parentFieldApiName}
+                        additional-row-actions={additionalRowActions}
                         related-record-new-default-values={tab.relatedRecordNewDefaultValues}
                         title={tab.label}
                         title-callback={titleCallback}
+                        label-confirm-delete={labelConfirmDelete}
                         icon-name={tab.iconName}
                         hide-count={hideCount}
                         hide-new-action={hideNewAction}

@@ -1,6 +1,6 @@
 <!-- sldsValidatorIgnore -->
 <template>
-    <lightning-modal-header label={labels.uploadDocuments}></lightning-modal-header>
+    <lightning-modal-header label={title}></lightning-modal-header>
     <lightning-modal-body class="slds-is-relative">
         <lightning-button-icon
             variant="bare"
@@ -17,10 +17,13 @@
                     onpreviewfile={handlePreviewFile}
                     ondownloadfile={handleDownloadFile}
                     onrenamefile={handleRenameFile}
+                    onopenfile={handleOpenFile}
+                    hide-download={hideDownload}
                 ></c-file-manager-item>
             </div>
         </template>
         <lightning-file-upload
+            lwc:if={isFileUploadVisible}
             name="fileUploader"
             accept={acceptedFormats}
             record-id={recordId}

@@ -1,20 +1,19 @@
 import LightningModal from 'lightning/modal';
 import LightningConfirm from 'lightning/confirm';
-import { api, track } from 'lwc';
+import { api, track, wire } from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
 import { CloseActionScreenEvent } from 'lightning/actions';
-import { updateRecord, deleteRecord, notifyRecordUpdateAvailable } from 'lightning/uiRecordApi';
-import { doRequest, getIconByDocType, logError, showToastNotification, isExperienceCloudCtx } from 'c/utils';
+import { updateRecord, deleteRecord } from 'lightning/uiRecordApi';
+import { getIconByDocType, logError, showToastNotification, isExperienceCloudCtx } from 'c/utils';
+import { gql, graphql, refreshGraphQL } from 'lightning/uiGraphQLApi';
 
 import { TOAST_VARIANT } from 'c/constants';
 import { LABELS } from './labels.js';
-import { MODE, ACCEPTED_FORMATS, DOWNLOAD_PATH, VIEW_PATH } from './constants.js';
+import { MODE, ACCEPTED_FORMATS, DOWNLOAD_PATH, VIEW_PATH, FULL_VIEW_PATH, FULL_VIEW_PATH_SITE } from './constants.js';
 
-import templateAction from './templateAction.html';
+import templateMain from './templateMain.html';
 import templateModal from './templateModal.html';
 import fileManagerCss from './fileManager.css';
-
-import getContentDetails from '@salesforce/apex/FileManagerController.getContentDetails';
 
 import ID_FIELD from '@salesforce/schema/ContentVersion.Id';
 import TITLE_FIELD from '@salesforce/schema/ContentVersion.Title';
@@ -26,48 +25,189 @@ export default class FileManager extends NavigationMixin(LightningModal) {
 
     @api recordId;
     @api mode = MODE.ACTION;
+    @api filter; // eg. '{"Type__c":{"eq":"CustomDocType"}}';
     @api hideCloseButton = false;
+    @api hideDownload = false;
+    @api hideUpload = false;
+    @api recordIds;
+    @api title = LABELS.uploadDocuments;
 
     @track files;
     @track spinnerStatus = {
         isLoading: false
     };
 
+    contentDocumentLinksIds;
+    queryContentDocumentLinksResult;
+    whereFilter = {};
+
     acceptedFormats = ACCEPTED_FORMATS;
-    isInitialFileLoad = false;
     isExperienceCloudCtx = false;
+
+    get isFileUploadVisible() {
+        return !this.hideUpload;
+    }
 
     // LIFECYCLE HOOKS
     render() {
-        return this.mode === MODE.ACTION ? templateAction : this.mode === MODE.MODAL ? templateModal : templateAction;
+        return this.mode === MODE.ACTION ? templateMain : this.mode === MODE.MODAL ? templateModal : templateMain;
     }
 
     renderedCallback() {
-        if (!this.isInitialFileLoad && this.recordId) {
-            this.init();
-            this.overrideCommunityStyles();
+        this.overrideCommunityStyles();
+    }
 
-            this.isInitialFileLoad = true;
+    // QUERY CONTENT DOCUMENT LINKS
+    @wire(graphql, {
+        query: '$contentDocumentLinksQuery',
+        variables: '$contentDocumentLinksQueryVariables'
+    })
+    queryContentDocumentLinks(result) {
+        const { data, errors } = result;
+
+        if (data) {
+            this.contentDocumentLinksIds = data?.uiapi.query.ContentDocumentLink.edges.map(
+                (edge) => edge.node.ContentDocumentId.value
+            );
+        }
+        if (errors) {
+            logError(errors);
+        }
+        this.queryContentDocumentLinksResult = result;
+    }
+
+    get contentDocumentLinksQuery() {
+        return gql`
+            query queryContentDocumentLinks($recordIds: [ID]!) {
+                uiapi {
+                    query {
+                        ContentDocumentLink(first: 1000, where: { LinkedEntityId: { in: $recordIds } }) {
+                            edges {
+                                node {
+                                    Id
+                                    ContentDocumentId {
+                                        value
+                                    }
+                                    LinkedEntityId {
+                                        value
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        `;
+    }
+
+    get contentDocumentLinksQueryVariables() {
+        return {
+            recordIds: this.recordIds || [this.recordId]
+        };
+    }
+
+    // QUERY CONTENT VERSIONS
+    @wire(graphql, {
+        query: '$contentVersionsQuery',
+        variables: '$contentVersionsQueryVariables' // Use a getter function to make the variables reactive
+    })
+    queryContentVersions({ data, errors }) {
+        let baseUrl = 'https://' + window.location.host + '/';
+        if (data) {
+            this.files = data?.uiapi.query.ContentVersion.edges.map((edge) => ({
+                Id: edge.node.Id,
+                Title: edge.node.Title.value,
+                FileExtension: edge.node.FileExtension.value,
+                ContentDocumentId: edge.node.ContentDocumentId.value,
+                downloadUrl: baseUrl + DOWNLOAD_PATH + edge.node.ContentDocumentId.value,
+                fileUrl: baseUrl + VIEW_PATH + edge.node.Id,
+                viewUrl: baseUrl + FULL_VIEW_PATH + edge.node.ContentDocumentId.value + '/view',
+                viewUrlSite: baseUrl + FULL_VIEW_PATH_SITE + edge.node.ContentDocumentId.value,
+                createdBy: edge.node.ContentDocument.CreatedBy.Name.value,
+                createdDate: new Date(edge.node.ContentDocument.CreatedDate.value).toLocaleString(),
+                icon: getIconByDocType(edge.node.FileExtension.value)
+            }));
+        }
+        if (errors) {
+            logError(errors);
         }
     }
 
-    // ACTIONS
-    async init() {
-        let result = await doRequest(getContentDetails, { recordId: this.recordId }, this.spinnerStatus);
-        let baseUrl = 'https://' + window.location.host + '/';
-
-        this.files = result.map((file) => {
-            return {
-                ...file,
-                downloadUrl: baseUrl + DOWNLOAD_PATH + file.ContentDocumentId,
-                fileUrl: baseUrl + VIEW_PATH + file.Id,
-                createdBy: file.ContentDocument.CreatedBy.Name,
-                createdDate: file.ContentDocument.CreatedDate.slice(0, 10),
-                icon: getIconByDocType(file.FileExtension)
-            };
-        });
+    get contentVersionsQuery() {
+        return !this.contentDocumentLinksIds
+            ? undefined
+            : gql`
+                  query queryContentVersions($whereClause: ContentVersion_Filter) {
+                      uiapi {
+                          query {
+                              ContentVersion(
+                                  first: 1000
+                                  where: $whereClause
+                                  orderBy: { CreatedDate: { order: DESC } }
+                              ) {
+                                  edges {
+                                      node {
+                                          Id
+                                          Title {
+                                              value
+                                          }
+                                          FileExtension {
+                                              value
+                                          }
+                                          ContentDocumentId {
+                                              value
+                                          }
+                                          CreatedDate {
+                                              value
+                                          }
+                                          ContentDocument {
+                                              CreatedBy {
+                                                  Name {
+                                                      value
+                                                  }
+                                              }
+                                              ContentSize {
+                                                  value
+                                              }
+                                              CreatedDate {
+                                                  value
+                                              }
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  }
+              `;
     }
 
+    get contentVersionsQueryVariables() {
+        this.whereFilter = {
+            and: [
+                {
+                    ContentDocumentId: {
+                        in: this.contentDocumentLinksIds
+                    }
+                }
+            ]
+        };
+
+        if (this.filter) {
+            this.whereFilter.and.push(JSON.parse(this.filter));
+        }
+
+        return {
+            contentDocumentLinksIds: this.contentDocumentLinksIds,
+            whereClause: this.whereFilter
+        };
+    }
+
+    async handleRefresh() {
+        return refreshGraphQL(this.queryContentDocumentLinksResult);
+    }
+
+    //ACTIONS
     async deleteFile(fileId) {
         const result = await LightningConfirm.open({
             message: LABELS.confirmDelete,
@@ -82,7 +222,7 @@ export default class FileManager extends NavigationMixin(LightningModal) {
 
         try {
             await deleteRecord(fileId);
-            this.init();
+            this.handleRefresh();
         } catch (error) {
             showToastNotification(LABELS.deleteError, '', TOAST_VARIANT.ERROR);
         } finally {
@@ -101,7 +241,7 @@ export default class FileManager extends NavigationMixin(LightningModal) {
 
         try {
             await updateRecord(recordInput);
-            this.init();
+            this.handleRefresh();
         } catch (error) {
             logError(error);
         } finally {
@@ -114,21 +254,43 @@ export default class FileManager extends NavigationMixin(LightningModal) {
         let file = this.files.find((a) => a.Id === event.detail);
 
         if (!this.isExperienceCloudCtx) {
-            this[NavigationMixin.Navigate]({
-                type: 'standard__namedPage',
-                attributes: {
-                    pageName: 'filePreview'
-                },
-                state: {
-                    selectedRecordId: file.ContentDocumentId
-                }
-            });
+            if (this.mode === MODE.MODAL) {
+                window.open(file.fileUrl);
+            } else {
+                this[NavigationMixin.Navigate]({
+                    type: 'standard__namedPage',
+                    attributes: {
+                        pageName: 'filePreview'
+                    },
+                    state: {
+                        selectedRecordId: file.ContentDocumentId
+                    }
+                });
+            }
         } else if (this.isExperienceCloudCtx) {
             this[NavigationMixin.Navigate](
                 {
                     type: 'standard__webPage',
                     attributes: {
                         url: file.fileUrl
+                    }
+                },
+                false
+            );
+        }
+    }
+
+    handleOpenFile(event) {
+        let file = this.files.find((a) => a.Id === event.detail);
+
+        if (!this.isExperienceCloudCtx) {
+            window.open(file.viewUrl);
+        } else if (this.isExperienceCloudCtx) {
+            this[NavigationMixin.Navigate](
+                {
+                    type: 'standard__webPage',
+                    attributes: {
+                        url: file.viewUrlSite
                     }
                 },
                 false
@@ -144,15 +306,19 @@ export default class FileManager extends NavigationMixin(LightningModal) {
     handleDownloadFile(event) {
         let file = this.files.find((a) => a.Id === event.detail);
 
-        this[NavigationMixin.Navigate](
-            {
-                type: 'standard__webPage',
-                attributes: {
-                    url: file.downloadUrl
-                }
-            },
-            false
-        );
+        if (this.mode === MODE.MODAL) {
+            window.open(file.downloadUrl);
+        } else {
+            this[NavigationMixin.Navigate](
+                {
+                    type: 'standard__webPage',
+                    attributes: {
+                        url: file.downloadUrl
+                    }
+                },
+                false
+            );
+        }
     }
 
     handleRenameFile(event) {
@@ -160,9 +326,9 @@ export default class FileManager extends NavigationMixin(LightningModal) {
         this.renameFile(file, event.detail.name);
     }
 
-    handleUploadFinished() {
-        this.init();
-        notifyRecordUpdateAvailable([{ recordId: this.recordId }]);
+    handleUploadFinished(event) {
+        this.dispatchEvent(new CustomEvent('uploadfinished', { detail: event.detail.files }));
+        this.handleRefresh();
     }
 
     handleCancel() {
@@ -174,7 +340,7 @@ export default class FileManager extends NavigationMixin(LightningModal) {
     }
 
     handleDataReload() {
-        this.init();
+        this.handleRefresh();
     }
 
     // HELPERS

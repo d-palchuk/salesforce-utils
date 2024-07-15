@@ -51,6 +51,12 @@
             />
             <property label="Title" name="title" type="String" />
             <property
+                label="Delete Confirmation Message"
+                name="labelConfirmDelete"
+                type="String"
+                description="Please specify the default message override."
+            />
+            <property
                 label="Icon Name"
                 name="iconName"
                 type="String"
@@ -67,6 +73,7 @@
             <property label="Hide Edit Action" name="hideEditAction" type="Boolean" default="false"/>
             <property label="Hide Delete Action" name="hideDeleteAction" type="Boolean" default="false"/>
             <property label="Hide Documents Action" name="hideDocumentsAction" type="Boolean" default="false"/>
+            <property label="Show Row Number Column" name="showRowNumberColumn" type="Boolean" default="false" description="	If present, the row numbers are shown in the first column."/>
         </targetConfig>
         <targetConfig targets="lightningCommunity__Default">
             <property
@@ -131,6 +138,12 @@
                 description="Please specify the name of the SLDS icon in the format type:name."
             />
             <property
+                label="Delete Confirmation Message"
+                name="labelConfirmDelete"
+                type="String"
+                description="Please specify the default message override."
+            />
+            <property
                 label="Icon Size"
                 name="iconSize"
                 type="String"
@@ -141,6 +154,7 @@
             <property label="Hide Edit Action" name="hideEditAction" type="Boolean" default="false"/>
             <property label="Hide Delete Action" name="hideDeleteAction" type="Boolean" default="false"/>
             <property label="Hide Documents Action" name="hideDocumentsAction" type="Boolean" default="false"/>
+            <property label="Show Row Number Column" name="showRowNumberColumn" type="Boolean" default="false" description="	If present, the row numbers are shown in the first column."/>
         </targetConfig>
     </targetConfigs>
 </LightningComponentBundle>

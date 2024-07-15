@@ -3,6 +3,11 @@
     <apiVersion>60.0</apiVersion>
     <isExposed>true</isExposed>
     <masterLabel>Generic Record Related List Tabs</masterLabel>
+    <description>
+        Shows the related records in the tab view.
+        The tabs are filtered by the Record Types by default.
+        Also, they can be filtered by the picklist and dependent picklist.
+    </description>
     <targets>
         <target>lightning__RecordPage</target>
         <target>lightningCommunity__Page</target>
@@ -32,10 +37,28 @@
                 required="true"
             />
             <property
+                label="Main Picklist Api Name"
+                name="controllerPicklistApiName"
+                type="String"
+                description="Please specify the API Name of the main picklist of the related object. Example: Type__c."
+            />
+            <property
+                label="Dependent Picklist Api Name"
+                name="dependentPicklistApiName"
+                type="String"
+                description="Please specify the API Name of the dependent picklist of the related object. Example: Subtype__c."
+            />
+            <property
                 label="Icon Name"
                 name="iconName"
                 type="String"
                 description="Please specify the name of the SLDS icon in the format type:name."
+            />
+            <property
+                label="Delete Confirmation Message"
+                name="labelConfirmDelete"
+                type="String"
+                description="Please specify the default message override."
             />
             <property label="Hide New Action" name="hideNewAction" type="Boolean" default="false"/>
             <property label="Hide Edit Action" name="hideEditAction" type="Boolean" default="false"/>
@@ -80,10 +103,28 @@
                 required="true"
             />
             <property
+                label="Main Picklist Api Name"
+                name="controllerPicklistApiName"
+                type="String"
+                description="Please specify the API Name of the main picklist of the related object. Example: Type__c."
+            />
+            <property
+                label="Dependent Picklist Api Name"
+                name="dependentPicklistApiName"
+                type="String"
+                description="Please specify the API Name of the dependent picklist of the related object. Example: Subtype__c."
+            />
+            <property
                 label="Icon Name"
                 name="iconName"
                 type="String"
                 description="Please specify the name of the SLDS icon in the format type:name."
+            />
+            <property
+                label="Delete Confirmation Message"
+                name="labelConfirmDelete"
+                type="String"
+                description="Please specify the default message override."
             />
             <property label="Hide New Action" name="hideNewAction" type="Boolean" default="false"/>
             <property label="Hide Edit Action" name="hideEditAction" type="Boolean" default="false"/>

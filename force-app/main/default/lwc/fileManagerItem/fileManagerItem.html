@@ -60,8 +60,16 @@
                 ></lightning-button-icon>
                 <lightning-button-icon
                     variant="bare"
-                    title={labels.preview}
+                    title={labels.docPreview}
                     icon-name="utility:preview"
+                    class="slds-var-m-left_xx-small"
+                    onclick={handleOpenFile}
+                    data-id={file.Id}
+                ></lightning-button-icon>
+                <lightning-button-icon
+                    variant="bare"
+                    title={labels.preview}
+                    icon-name="utility:document_preview"
                     class="slds-var-m-left_xx-small"
                     onclick={handlePreviewFile}
                     data-id={file.Id}
@@ -73,6 +81,7 @@
                     class="slds-var-m-left_xx-small"
                     onclick={handleDownloadFile}
                     data-id={file.Id}
+                    lwc:if={isDownloadVisible}
                 ></lightning-button-icon>
                 <lightning-button-icon
                     variant="bare"

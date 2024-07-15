@@ -13,8 +13,12 @@
     <!-- Configuring the design attributes -->
     <targetConfigs>
         <targetConfig targets="lightning__RecordPage, lightningCommunity__Default">
-            <property name="recordId" type="String" default="recordId" label="Record Id" required="true"/>
+            <property name="recordId" type="String" default="{!recordId}" label="Record Id" required="true"/>
+            <property name="title" type="String" default="Uploaded Documents" label="Display Name" required="true"/>
+            <property name="filter" type="String" default="" label="Filter" required="false" description='Example: {"Type__c":{"eq":""}} '/>
             <property name="hideCloseButton" type="Boolean" default="false" label="Should the footer with the close button be hidden?" required="false"/>
+            <property name="hideDownload" type="Boolean" default="false" label="Hide Download Button" required="false"/>
+            <property name="hideUpload" type="Boolean" default="false" label="Hide File Upload Button" required="false"/>
         </targetConfig>
         <targetConfig targets="lightning__RecordAction">
             <actionType>ScreenAction</actionType>

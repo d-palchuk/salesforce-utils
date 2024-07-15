@@ -9,27 +9,35 @@ import { encodeDefaultFieldValues } from 'lightning/pageReferenceUtils';
 
 import FileManager from 'c/fileManager';
 import { showToastNotification, logError, getSortedDatatableData } from 'c/utils';
+import { CONSTANT, DATATABLE_COL_TYPES } from 'c/constants';
+
 import { LABELS } from './labels.js';
-import { CONSTANTS, DATATABLE_COL_TYPES } from './constants.js';
+import { CONSTANTS } from './constants.js';
 
 const VIEW_ACTION = { label: LABELS.view, name: 'view' };
 const EDIT_ACTION = { label: LABELS.edit, name: 'edit' };
 const DELETE_ACTION = { label: LABELS.deleteLabel, name: 'delete' };
-const DOCUMENTS_ACTION = { label: LABELS.addDocuments, name: 'add_documents' };
+const DOCUMENTS_ACTION = { label: LABELS.addDocuments, name: 'adddocuments' };
 
 export default class GenericRecordRelatedList extends NavigationMixin(LightningElement) {
+    // BUILDER PROPERTIES
     @api recordId;
     @api objectApiName;
     @api relatedObjectApiName;
     @api relatedListApiName;
     @api relatedListFilters;
-    @api recordTypeId;
     @api parentFieldApiName;
-    @api relatedRecordNewDefaultValues = {};
+    @api recordTypeId;
     @api title;
-    @api titleCallback;
     @api iconName;
     @api iconSize = 'small';
+    @api labelConfirmDelete = LABELS.confirmDelete;
+    @api showRowNumberColumn = false;
+
+    // TECH PROPERTIES
+    @api additionalRowActions = [];
+    @api relatedRecordNewDefaultValues = {};
+    @api titleCallback;
     @api hideHeader = false;
     @api showCheckboxColumn = false;
     @api showViewAction = false;
@@ -92,7 +100,7 @@ export default class GenericRecordRelatedList extends NavigationMixin(LightningE
                         .replaceAll(' ', '')
                         .split(',')
                         .filter((fieldApiName) => this.relatedObjectInfo.fields[fieldApiName])
-                        .map((fieldApiName) => `${this.relatedObjectApiName}.${fieldApiName}`);
+                        .map(fieldApiName => this.getRelatedListFieldFullName(fieldApiName));
 
                 this._relatedListFieldApiNames =
                     Array.isArray(relatedListFieldApiNames) && relatedListFieldApiNames.length > 0
@@ -111,8 +119,8 @@ export default class GenericRecordRelatedList extends NavigationMixin(LightningE
                 this._relatedListFields.length !== this.fieldApiNames.length
             )
         ) {
-            this._relatedListFields = this.fieldApiNames.map(
-                (fieldApiName) => `${this.relatedObjectApiName}.${fieldApiName}`
+            this._relatedListFields = this.fieldApiNames.map(fieldApiName =>
+                this.getRelatedListFieldFullName(fieldApiName)
             );
         }
 
@@ -173,7 +181,8 @@ export default class GenericRecordRelatedList extends NavigationMixin(LightningE
         if (data) {
             this.parseColumnsData(data.displayColumns);
 
-            this.title = this.originalTitle = !this.title ? data.label : this.title;
+            this.title = !this.title ? data.label : this.title;
+            this.originalTitle = this.originalTitle || this.title;
         } else if (error) {
             logError(error, false);
             this.columns = [];
@@ -222,7 +231,7 @@ export default class GenericRecordRelatedList extends NavigationMixin(LightningE
                 nooverride: 1,
                 useRecordTypeCheck: this.recordTypeId ? 0 : 1,
                 defaultFieldValues: defaultValues || 'inheritParentString',
-                navigationLocation: 'RELATED_LIST',
+                navigationLocation: CONSTANT.NAVIGATION_LOCATION_RELATED_LIST,
                 recordTypeId: this.recordTypeId
             }
         });
@@ -275,7 +284,7 @@ export default class GenericRecordRelatedList extends NavigationMixin(LightningE
 
                 this.dispatchEvent(new CustomEvent('delete', { detail: row }));
                 break;
-            case 'add_documents':
+            case 'adddocuments':
                 if (!this.preventDefaultAddDocuments) {
                     FileManager.open({
                         mode: 'modal',
@@ -286,13 +295,27 @@ export default class GenericRecordRelatedList extends NavigationMixin(LightningE
                 this.dispatchEvent(new CustomEvent('adddocuments', { detail: row }));
                 break;
             default:
+                if (actionName) {
+                    this.dispatchEvent(new CustomEvent(actionName, { detail: row, bubbles: true, composed: true }));
+                }
         }
     }
 
     // INIT HELPERS
-    parseColumnsData(displayColumns) {
+    parseColumnsData(wiredDisplayColumns) {
+        const displayColumns = [...wiredDisplayColumns];
+
         this.columns = [];
         this.fieldApiNames = [];
+
+        if (this.relatedListFieldApiNames) {
+            displayColumns.sort((a, b) => {
+                return (
+                    this.relatedListFieldApiNames.indexOf(this.getRelatedListFieldFullName(a.fieldApiName)) -
+                    this.relatedListFieldApiNames.indexOf(this.getRelatedListFieldFullName(b.fieldApiName))
+                );
+            });
+        }
 
         this.columns = displayColumns.map((col) => {
             const column = {
@@ -357,7 +380,6 @@ export default class GenericRecordRelatedList extends NavigationMixin(LightningE
             for (let fieldName of this.fieldApiNames) {
                 const splittedName = fieldName.split('.');
                 const isLookup = this.fieldApiNameToColumn[fieldName].lookupId;
-                const isCurrency = this.fieldApiNameToColumn[fieldName].type === DATATABLE_COL_TYPES.CURRENCY;
 
                 if (!splittedName || !record?.fields?.[splittedName[0]]) {
                     continue;
@@ -373,10 +395,6 @@ export default class GenericRecordRelatedList extends NavigationMixin(LightningE
                         splittedName.length > 1
                             ? `/${record.fields[splittedName[0]].value?.id}` // standard/custom lookup
                             : `/${record.id}`; // standard name lookup
-                }
-
-                if (isCurrency) {
-                    result[fieldName] = result[fieldName] || 0;
                 }
             }
 
@@ -421,13 +439,16 @@ export default class GenericRecordRelatedList extends NavigationMixin(LightningE
                 recordId: recordId,
                 objectApiName: this.relatedObjectApiName,
                 actionName: 'edit'
+            },
+            state: {
+                navigationLocation: CONSTANT.NAVIGATION_LOCATION_RELATED_LIST_ROW,
             }
         });
     }
 
     async deleteRecord(recordId) {
         const result = await LightningConfirm.open({
-            message: LABELS.confirmDelete,
+            message: this.labelConfirmDelete,
             variant: 'headerless'
         });
 
@@ -478,6 +499,9 @@ export default class GenericRecordRelatedList extends NavigationMixin(LightningE
         }
         if (!this.hideDocumentsAction) {
             this.actions.push(DOCUMENTS_ACTION);
+        }
+        if (this.additionalRowActions && Array.isArray(this.additionalRowActions)) {
+            this.actions = [...this.actions, ...this.additionalRowActions];
         }
     }
 
@@ -563,5 +587,15 @@ export default class GenericRecordRelatedList extends NavigationMixin(LightningE
             default:
                 return 'text';
         }
+    }
+
+    getRelatedListFieldFullName(fieldApiName) {
+        return `${this.relatedObjectApiName}.${this.getRelatedListFieldName(fieldApiName)}`;
+    }
+
+    getRelatedListFieldName(fieldApiName) {
+        return this.relatedObjectInfo?.fields?.[fieldApiName]?.relationshipName
+            ? `${this.relatedObjectInfo.fields[fieldApiName]?.relationshipName}.${CONSTANTS.STANDARD_NAME_FIELD}`
+            : fieldApiName;
     }
 }

@@ -1,6 +1,6 @@
 <!-- sldsValidatorIgnore -->
 <template>
-    <lightning-card lwc:ref="card" variant="Narrow" title={labels.uploadDocuments} icon-name="standard:document">
+    <lightning-card lwc:ref="card" variant="Narrow" title={title} icon-name="standard:document">
         <lightning-button-icon
             variant="bare"
             title={labels.contentSync}
@@ -16,10 +16,13 @@
                     onpreviewfile={handlePreviewFile}
                     ondownloadfile={handleDownloadFile}
                     onrenamefile={handleRenameFile}
+                    onopenfile={handleOpenFile}
+                    hide-download={hideDownload}
                 ></c-file-manager-item>
             </div>
         </template>
         <lightning-file-upload
+            lwc:if={isFileUploadVisible}
             name="fileUploader"
             accept={acceptedFormats}
             record-id={recordId}
