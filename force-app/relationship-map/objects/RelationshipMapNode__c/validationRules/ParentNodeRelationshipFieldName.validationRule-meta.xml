@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ParentNodeRelationshipFieldName</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND (
+    ISBLANK( ParentNodeRelationshipFieldName__c ),
+    NOT( 
+        ISBLANK(ParentRelationshipMapNodeGroup__c)
+    )
+)</errorConditionFormula>
+    <errorDisplayField>ParentNodeRelationshipFieldName__c</errorDisplayField>
+    <errorMessage>The Parent Node Relationship Field Name field should be populated for all child nodes</errorMessage>
+</ValidationRule>

@@ -1,0 +1,10 @@
+.tree {
+    background: white;
+    background-image: radial-gradient(var(--lwc-colorBorderSeparatorAlt) 1px, transparent 0);
+    background-size: 20px 20px;
+    border: solid;
+    border-width: var(--lwc-borderWidthThin);
+    border-radius: var(--lwc-borderRadiusMedium);
+    border-color: var(--lwc-colorBorder);
+    cursor: grab;
+}

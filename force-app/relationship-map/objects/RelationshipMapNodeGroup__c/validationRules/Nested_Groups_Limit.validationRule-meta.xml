@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Nested_Groups_Limit</fullName>
+    <active>true</active>
+    <errorConditionFormula>NOT(ISBLANK(RelationshipMapNode__r.ParentRelationshipMapNodeGroup__r.RelationshipMapNode__r.ParentRelationshipMapNodeGroup__r.RelationshipMapNode__c ))</errorConditionFormula>
+    <errorMessage>You have reached the maximum number of allowed nested groups</errorMessage>
+</ValidationRule>
